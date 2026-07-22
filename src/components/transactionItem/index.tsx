@@ -4,7 +4,6 @@ import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { styles } from "./style";
 import { colors } from "@/styles/colors";
 
-// Definição da estrutura do Lançamento
 export interface Transaction {
   id: string;
   title: string;
@@ -23,9 +22,10 @@ export interface Transaction {
 interface Props {
   data: Transaction;
   onDelete?: (id: string) => void;
+  onPress?: () => void;
 }
 
-export function TransactionItem({ data, onDelete }: Props) {
+export function TransactionItem({ data, onDelete, onPress }: Props) {
   const [showDelete, setShowDelete] = useState(false);
   const isIncome = data.type === "income";
 
@@ -53,13 +53,20 @@ export function TransactionItem({ data, onDelete }: Props) {
     );
   };
 
+  const handlePressContainer = () => {
+    if (onPress) {
+      onPress();
+    } else {
+      setShowDelete(!showDelete);
+    }
+  };
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() => setShowDelete(!showDelete)}
+      onPress={handlePressContainer}
       style={styles.container}
     >
-      {/* Ícone com Quadrado Arredondado */}
       <View
         style={[
           styles.iconContainer,
@@ -73,14 +80,13 @@ export function TransactionItem({ data, onDelete }: Props) {
         />
       </View>
 
-      {/* Detalhes do Lançamento (Título + Categoria + Tag) */}
+      {/* Detalhes do Lançamento */}
       <View style={styles.detailsContainer}>
         <Text style={styles.title}>{data.title}</Text>
 
         <View style={styles.subInfoContainer}>
           <Text style={styles.category}>{data.category}</Text>
 
-          {/* Tag opcional (ex: 'Fixa') */}
           {data.tag && (
             <View style={styles.tag}>
               <Text style={styles.tagText}>{data.tag}</Text>
@@ -89,17 +95,20 @@ export function TransactionItem({ data, onDelete }: Props) {
         </View>
       </View>
 
-      {/* Se o estado showDelete for verdadeiro, mostra a lixeira no lugar do valor */}
+      {/* Se o estado showDelete for verdadeiro, mostra a lixeira */}
       {showDelete ? (
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={handleDelete}
           style={{ paddingLeft: 12, paddingVertical: 4 }}
         >
-          <FontAwesome5 name="trash-alt" size={18} color={colors.red[200]} />
+          <FontAwesome5
+            name="trash-alt"
+            size={18}
+            color={colors.red[200]}
+          />
         </TouchableOpacity>
       ) : (
-        /* Valor */
         <Text
           style={[
             styles.amount,

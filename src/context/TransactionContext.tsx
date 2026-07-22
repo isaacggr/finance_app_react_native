@@ -6,6 +6,7 @@ interface TransactionContextData {
   transactions: Transaction[];
   addTransaction: (transaction: Omit<Transaction, "id">) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
+  updateTransaction: (transaction: Transaction) => Promise<void>;
 }
 
 const STORAGE_KEY = "@finance_app:transactions";
@@ -46,7 +47,6 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
     }
   };
 
-  // 🔴 Função para deletar um lançamento pelo ID
   const deleteTransaction = async (id: string) => {
     try {
       const updatedList = transactions.filter((item) => item.id !== id);
@@ -57,9 +57,26 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
     }
   };
 
+  const updateTransaction = async (updatedItem: Transaction) => {
+    try {
+      const updatedList = transactions.map((item) =>
+        item.id === updatedItem.id ? updatedItem : item
+      );
+      setTransactions(updatedList);
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedList));
+    } catch (error) {
+      console.error("Erro ao atualizar transação:", error);
+    }
+  };
+
   return (
     <TransactionContext.Provider
-      value={{ transactions, addTransaction, deleteTransaction }}
+      value={{
+        transactions,
+        addTransaction,
+        deleteTransaction,
+        updateTransaction,
+      }}
     >
       {children}
     </TransactionContext.Provider>
