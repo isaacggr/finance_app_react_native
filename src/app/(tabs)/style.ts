@@ -5,7 +5,7 @@ import { colors } from "@/styles/colors";
 export const styles = StyleSheet.create({
     home: {
         flex: 1,
-        padding: 3,
+        padding: 15,
         backgroundColor: colors.gray[850],
     },
 

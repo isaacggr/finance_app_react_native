@@ -38,7 +38,7 @@ export default function TabsLayout() {
 
       {/* 2. Aba Relatórios */}
       <Tabs.Screen
-        name="reports"
+        name="reports/index"
         options={{
           title: "Relatórios",
           tabBarIcon: ({ color, size }) => (
@@ -49,7 +49,7 @@ export default function TabsLayout() {
 
       {/* 3. Botão Central de Adicionar (+) */}
       <Tabs.Screen
-        name="add"
+        name="add/index"
         options={{
           title: "",
           tabBarIcon: () => (
@@ -62,7 +62,7 @@ export default function TabsLayout() {
 
       {/* 4. Aba Fixos */}
       <Tabs.Screen
-        name="fixed"
+        name="fixed/index"
         options={{
           title: "Fixos",
           tabBarIcon: ({ color, size }) => (
@@ -73,7 +73,7 @@ export default function TabsLayout() {
 
       {/* 5. Aba Perfil */}
       <Tabs.Screen
-        name="profile"
+        name="profile/index"
         options={{
           title: "Perfil",
           tabBarIcon: ({ color, size }) => (

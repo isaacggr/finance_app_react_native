@@ -26,6 +26,7 @@ export const colors = {
 
   blue: {
     200: "#007AFF",
+    300: "#4F46E5",
     500: "#0D1B2A",
   },
 };
