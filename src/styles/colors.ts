@@ -32,4 +32,15 @@ export const colors = {
     500: "#0D1B2A",
     600: "#0D131A",
   },
+
+  category: {
+    lazer: "#FF5252",
+    transporte: "#F59E0B",
+    saude: "#10B981",
+    alimentacao: "#4F46E5",
+    educacao: "#8B5CF6",
+    moradia: "#EC4899",
+    outros: "#06B6D4",
+  },
+  
 };

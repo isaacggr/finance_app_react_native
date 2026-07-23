@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Image, TouchableOpacity, FlatList, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 import { MonthSelector } from "@/components/monthSelector";
 import { BalanceCard } from "@/components/balanceCard";
@@ -11,17 +12,49 @@ import { styles } from "./style";
 import { colors } from "@/styles/colors";
 
 export default function Home() {
+  const router = useRouter();
   const [selectedDate, setSelectedDate] = useState(new Date());
   // Extraímos deleteTransaction do contexto
   const { transactions, deleteTransaction } = useTransactions();
 
-  // 1. Filtra as transações comparando o Mês e Ano selecionados no MonthSelector
+  // Função para navegar até a aba de Perfil
+  const handleOpenProfile = () => {
+    router.push("/(tabs)/profile");
+  };
+
+  // 1. Filtra as transações comparando o Mês e Ano selecionados de forma segura (DD/MM/YYYY e ISO)
   const filteredTransactions = transactions.filter((item) => {
-    const itemDate = item.startDate ? new Date(item.startDate) : new Date();
-    return (
-      itemDate.getMonth() === selectedDate.getMonth() &&
-      itemDate.getFullYear() === selectedDate.getFullYear()
-    );
+    if (!item.startDate) return false;
+
+    // Formato DD/MM/YYYY
+    if (item.startDate.includes("/")) {
+      const parts = item.startDate.split("/");
+      if (parts.length === 3) {
+        const itemMonth = parseInt(parts[1], 10) - 1; // Mês no JS vai de 0 a 11
+        const itemYear = parseInt(parts[2], 10);
+
+        return (
+          itemMonth === selectedDate.getMonth() &&
+          itemYear === selectedDate.getFullYear()
+        );
+      }
+    }
+
+    // Formato YYYY-MM-DD (ISO)
+    if (item.startDate.includes("-")) {
+      const parts = item.startDate.split("-");
+      if (parts.length >= 2) {
+        const itemYear = parseInt(parts[0], 10);
+        const itemMonth = parseInt(parts[1], 10) - 1;
+
+        return (
+          itemMonth === selectedDate.getMonth() &&
+          itemYear === selectedDate.getFullYear()
+        );
+      }
+    }
+
+    return false;
   });
 
   // 2. Calcula as receitas do mês filtrado
@@ -45,7 +78,11 @@ export default function Home() {
           source={require("@/assets/logo.png")}
           style={styles.logo}
         />
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={handleOpenProfile}
+          hitSlop={10}
+        >
           <FontAwesome5
             name="user-circle"
             size={35}

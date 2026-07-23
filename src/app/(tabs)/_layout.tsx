@@ -1,7 +1,32 @@
+import React, { useEffect, useRef } from "react";
 import { Tabs } from "expo-router";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform, Animated } from "react-native";
 import { Feather, Entypo } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
+
+function AnimatedTabIcon({
+  children,
+  focused,
+}: {
+  children: React.ReactNode;
+  focused: boolean;
+}) {
+  const scaleValue = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    Animated.spring(scaleValue, {
+      toValue: focused ? 1.18 : 1,
+      friction: 4,
+      useNativeDriver: true,
+    }).start();
+  }, [focused]);
+
+  return (
+    <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
+      {children}
+    </Animated.View>
+  );
+}
 
 export default function TabsLayout() {
   return (
@@ -13,7 +38,7 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: colors.gray[900],
           borderTopWidth: 0,
-          elevation: 0, 
+          elevation: 0,
           shadowOpacity: 0,
           position: "absolute",
           bottom: 0,
@@ -30,8 +55,10 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: "Início",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="home" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <AnimatedTabIcon focused={focused}>
+              <Feather name="home" size={size} color={color} />
+            </AnimatedTabIcon>
           ),
         }}
       />
@@ -41,8 +68,10 @@ export default function TabsLayout() {
         name="reports/index"
         options={{
           title: "Relatórios",
-          tabBarIcon: ({ color, size }) => (
-            <Entypo name="circular-graph" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <AnimatedTabIcon focused={focused}>
+              <Entypo name="circular-graph" size={size} color={color} />
+            </AnimatedTabIcon>
           ),
         }}
       />
@@ -52,10 +81,12 @@ export default function TabsLayout() {
         name="add/index"
         options={{
           title: "",
-          tabBarIcon: () => (
-            <View style={styles.addButton}>
-              <Feather name="plus" size={28} color={colors.gray[950]} />
-            </View>
+          tabBarIcon: ({ focused }) => (
+            <AnimatedTabIcon focused={focused}>
+              <View style={styles.addButton}>
+                <Feather name="plus" size={28} color={colors.gray[950]} />
+              </View>
+            </AnimatedTabIcon>
           ),
         }}
       />
@@ -65,8 +96,10 @@ export default function TabsLayout() {
         name="fixed/index"
         options={{
           title: "Fixos",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="repeat" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <AnimatedTabIcon focused={focused}>
+              <Feather name="repeat" size={size} color={color} />
+            </AnimatedTabIcon>
           ),
         }}
       />
@@ -76,8 +109,10 @@ export default function TabsLayout() {
         name="profile/index"
         options={{
           title: "Perfil",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <AnimatedTabIcon focused={focused}>
+              <Feather name="user" size={size} color={color} />
+            </AnimatedTabIcon>
           ),
         }}
       />
@@ -93,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray[100],
     justifyContent: "center",
     alignItems: "center",
-    top: Platform.OS === "ios" ? -13 : -10, 
+    top: Platform.OS === "ios" ? -13 : -10,
     shadowColor: colors.gray[500],
     shadowOffset: { width: 5, height: 4 },
     shadowOpacity: 0.3,

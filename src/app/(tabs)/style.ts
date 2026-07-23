@@ -9,20 +9,12 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.gray[850],
     },
 
-    title: {
-        color: colors.gray[300],
-        fontSize: 24,
-        fontWeight: "bold",
-    },
-
     header: {
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         paddingVertical: 5,
-        // borderWidth: 2,
-        // borderColor: "red",
     },
 
     logo: {
