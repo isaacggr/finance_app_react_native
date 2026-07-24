@@ -8,7 +8,7 @@ import { MonthSelector } from "@/components/monthSelector";
 import { BalanceCard } from "@/components/balanceCard";
 import { TransactionItem } from "@/components/transactionItem";
 import { useTransactions } from "@/context/TransactionContext";
-import { styles } from "./style";
+import { styles } from "../../styles/home";
 import { colors } from "@/styles/colors";
 
 export default function Home() {

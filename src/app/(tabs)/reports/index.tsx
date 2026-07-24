@@ -8,7 +8,7 @@ import { useTransactions } from "@/context/TransactionContext";
 import { exportTransactionsToExcel } from "@/utils/exportPlanilha";
 import { DonutChart } from "@/components/donutChart";
 import { MonthSelector } from "@/components/monthSelector";
-import { styles } from "./style";
+import { styles } from "../../../styles/reports";
 import { colors } from "@/styles/colors";
 
 export function getCategoryColor(categoryName: string): string {

@@ -7,6 +7,7 @@ interface TransactionContextData {
   addTransaction: (transaction: Omit<Transaction, "id">) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
   updateTransaction: (transaction: Transaction) => Promise<void>;
+  clearAllTransactions: () => Promise<void>; 
 }
 
 const STORAGE_KEY = "@finance_app:transactions";
@@ -69,6 +70,15 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
     }
   };
 
+  const clearAllTransactions = async () => {
+    try {
+      setTransactions([]);
+      await AsyncStorage.removeItem(STORAGE_KEY); 
+    } catch (error) {
+      console.error("Erro ao apagar todo o histórico:", error);
+    }
+  };
+
   return (
     <TransactionContext.Provider
       value={{
@@ -76,6 +86,7 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
         addTransaction,
         deleteTransaction,
         updateTransaction,
+        clearAllTransactions, 
       }}
     >
       {children}

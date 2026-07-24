@@ -18,7 +18,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import { TransactionItem, Transaction } from "@/components/transactionItem";
 import { useTransactions } from "@/context/TransactionContext";
-import { styles } from "./style";
+import { styles } from "../../../styles/fixed";
 import { colors } from "@/styles/colors";
 
 export default function FixedScreen() {

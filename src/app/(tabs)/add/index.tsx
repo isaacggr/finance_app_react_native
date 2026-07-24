@@ -15,7 +15,7 @@ import { useRouter } from "expo-router";
 
 import { MonthSelector } from "@/components/monthSelector";
 import { useTransactions } from "@/context/TransactionContext";
-import { styles } from "./style";
+import { styles } from "../../../styles/add";
 import { colors } from "@/styles/colors";
 
 const EXPENSE_CATEGORIES = [
